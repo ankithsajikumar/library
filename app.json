@@ -1,0 +1,8 @@
+{
+  "name": "library-entespotify",
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ]
+}
