@@ -3,8 +3,10 @@ package com.library.entespotify.track;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name ="track")
 public class Track {
 
     @Id @GeneratedValue
