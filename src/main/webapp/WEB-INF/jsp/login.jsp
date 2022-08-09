@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
     <head>
-        <title>Home</title>
+        <title>Login</title>
         <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css"rel="stylesheet">
         <link href="css/login.css" rel="stylesheet">
     </head>
@@ -12,26 +12,19 @@
           <div class="background"></div>
         </div>
 
-        <form id="accesspanel" action="login" method="post">
-          <h1 id="litheader">AECEND</h1>
+        <form id="accesspanel" action="perform_login" method='POST'>
+          <h1 id="litheader">LOGIN</h1>
           <div class="inset">
             <p>
-              <input type="text" name="username" id="email" placeholder="Email address">
+              <input type="text" name="username" id="email" placeholder="Username">
             </p>
             <p>
               <input type="password" name="password" id="password" placeholder="Access code">
             </p>
-            <div style="text-align: center;">
-              <div class="checkboxouter">
-                <input type="checkbox" name="rememberme" id="remember" value="Remember">
-                <label class="checkbox"></label>
-              </div>
-              <label for="remember">Remember me for 14 days</label>
-            </div>
-            <input class="loginLoginValue" type="hidden" name="service" value="login" />
+            <input class="loginLoginValue" type="hidden" name="service" value="perform_login" />
           </div>
           <p class="p-container">
-            <input type="submit" name="Login" id="go" value="Authorize">
+            <input type="submit" name="Login" id="go" value="Login">
           </p>
         </form>
         </div>
