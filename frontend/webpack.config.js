@@ -12,7 +12,7 @@ module.exports = {
 	},
     output: {
         filename: 'js/[name].js',
-        path: path.resolve(STATIC_PATH, 'statics/dist')
+        path: path.resolve(STATIC_PATH, 'static/dist')
     },
     module: {
         rules: [{
