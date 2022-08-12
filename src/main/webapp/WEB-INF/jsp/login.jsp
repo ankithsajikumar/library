@@ -3,8 +3,7 @@
 <html>
     <head>
         <title>Login</title>
-        <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css"rel="stylesheet">
-        <link href="css/login.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
         <div class="login-v1">
@@ -29,9 +28,7 @@
         </form>
         </div>
         <footer>
-            <script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-            <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
-            <script src="js/login.js"></script>
+            <script src="js/script.js"></script>
         </footer>
     </body>
 </html>
