@@ -11,6 +11,7 @@ module.exports = {
 	mode: "production",
     entry: {
 		style: __dirname + '/src/scss/main.scss',
+		error: __dirname + '/src/scss/main.error.scss',
 		script: __dirname + '/src/js/main.js'
 	},
     output: {
