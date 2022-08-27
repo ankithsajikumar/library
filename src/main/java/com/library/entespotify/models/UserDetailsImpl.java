@@ -1,6 +1,5 @@
 package com.library.entespotify.models;
 
-import com.library.entespotify.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

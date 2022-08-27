@@ -1,5 +1,7 @@
 package com.library.entespotify.controllers;
 
+import com.library.entespotify.models.User;
+import com.library.entespotify.services.CustomUserService;
 import com.library.entespotify.services.UserDetailsServiceImp;
 import com.library.entespotify.models.JwtRequest;
 import com.library.entespotify.models.JwtResponse;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin
 public class JWTAuthenticationController {
@@ -30,6 +34,9 @@ public class JWTAuthenticationController {
     @Autowired
     private UserDetailsServiceImp userDetailsService;
 
+    @Autowired
+    private CustomUserService userService;
+
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -40,6 +47,11 @@ public class JWTAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/authenticate/register")
+    public ResponseEntity<User> registerPost(@Valid @RequestBody User user) {
+        return ResponseEntity.ok(userService.register(user));
     }
 
     private void authenticate(String username, String password) throws Exception {

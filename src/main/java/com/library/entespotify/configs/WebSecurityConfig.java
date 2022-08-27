@@ -1,6 +1,5 @@
 package com.library.entespotify.configs;
 
-import com.library.entespotify.filters.LoginPageFilter;
 import com.library.entespotify.filters.JwtAuthenticationEntryPoint;
 import com.library.entespotify.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    @Autowired
-    private LoginPageFilter loginPageFilter;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -48,13 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000/"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        corsConfiguration.setExposedHeaders(List.of("Authorization"));
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login*", "/login/register", "/authenticate").anonymous()
-                .antMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/authenticate/register", "/authenticate").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -63,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(loginPageFilter, JwtRequestFilter.class);
     }
 
     @Override
