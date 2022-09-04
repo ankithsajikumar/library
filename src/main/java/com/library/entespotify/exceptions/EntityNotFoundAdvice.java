@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-class TrackNotFoundAdvice {
+class EntityNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(TrackNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(TrackNotFoundException ex) {
+    String entityNotFoundHandler(EntityNotFoundException ex) {
         return ex.getMessage();
     }
 }

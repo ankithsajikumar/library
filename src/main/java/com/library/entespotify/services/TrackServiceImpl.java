@@ -1,7 +1,7 @@
 package com.library.entespotify.services;
 
 import com.library.entespotify.models.Track;
-import com.library.entespotify.exceptions.TrackNotFoundException;
+import com.library.entespotify.exceptions.EntityNotFoundException;
 import com.library.entespotify.repositories.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public Track one(Long id) {
         return trackRepository.findById(id)
-            .orElseThrow(() -> new TrackNotFoundException(id));
+                .orElseThrow(() -> new EntityNotFoundException(id));
     }
 
     @Override

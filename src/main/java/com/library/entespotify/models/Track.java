@@ -1,24 +1,25 @@
 package com.library.entespotify.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "exceptions")
+@Table(name = "tracks")
 public class Track {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
     private String title;
-    private String artist;
+    @ManyToMany(mappedBy = "tracks")
+    private Set<Artist> artist;
     private String album;
 
 
-    Track() {}
+    Track() {
+    }
 
-    public Track(String title, String artist, String album) {
+    public Track(String title, Set<Artist> artist, String album) {
 
         this.title = title;
         this.artist = artist;
@@ -33,7 +34,7 @@ public class Track {
         return this.title;
     }
 
-    public String getArtist() {
+    public Set<Artist> getArtist() {
         return this.artist;
     }
 
@@ -49,7 +50,7 @@ public class Track {
         this.title = title;
     }
 
-    public void setArtist(String artist) {
+    public void setArtist(Set<Artist> artist) {
         this.artist = artist;
     }
 
