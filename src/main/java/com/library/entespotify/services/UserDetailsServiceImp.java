@@ -1,7 +1,7 @@
 package com.library.entespotify.services;
 
 import com.library.entespotify.models.User;
-import com.library.entespotify.models.UserDetailsImpl;
+import com.library.entespotify.models.auth.UserDetailsImpl;
 import com.library.entespotify.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

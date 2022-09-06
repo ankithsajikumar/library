@@ -19,10 +19,6 @@ public class CustomUserService {
         this.userRepository = userRepository;
     }
 
-    public boolean isLoggedIn() {
-        return true;
-    }
-
     public User register(User newUser) {
         newUser.setPassword(passwordEncoder.encode( newUser.getPassword()));
         return userRepository.save(newUser);

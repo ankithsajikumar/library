@@ -1,8 +1,8 @@
-package com.library.entespotify.models;
+package com.library.entespotify.models.auth;
 
 import java.io.Serializable;
 
-public class JwtRequest implements Serializable {
+public class TokenRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
@@ -10,11 +10,11 @@ public class JwtRequest implements Serializable {
     private String password;
 
     //need default constructor for JSON Parsing
-    public JwtRequest() {
+    public TokenRequest() {
 
     }
 
-    public JwtRequest(String username, String password) {
+    public TokenRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }
