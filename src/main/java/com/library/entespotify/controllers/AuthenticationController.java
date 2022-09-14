@@ -14,11 +14,9 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,6 +67,19 @@ public class AuthenticationController {
     @PostMapping("/authenticate/refresh")
     public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
+        return tokenService.findByToken(requestRefreshToken)
+                .map(tokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
+                    String token = tokenService.generateToken(userDetails);
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                }).orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
+    }
+
+    @GetMapping("/authenticate/refresh")
+    public ResponseEntity<TokenRefreshResponse> getRefreshToken(HttpServletRequest request) {
+        final String requestRefreshToken = request.getHeader("Refresh");
         return tokenService.findByToken(requestRefreshToken)
                 .map(tokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
