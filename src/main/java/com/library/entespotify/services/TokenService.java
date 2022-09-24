@@ -85,7 +85,7 @@ public class TokenService {
 
     public RefreshToken createRefreshToken(String username) {
         RefreshToken refreshToken = new RefreshToken();
-        refreshToken.setUser(userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found")));
+        refreshToken.setUser(userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User Not Found")));
         refreshToken.setExpiryDate(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000));
         refreshToken.setToken(UUID.randomUUID().toString());
         refreshToken = refreshTokenRepository.save(refreshToken);

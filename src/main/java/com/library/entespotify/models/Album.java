@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name = "albums")
 public class Album {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     @ManyToMany(mappedBy = "albums")

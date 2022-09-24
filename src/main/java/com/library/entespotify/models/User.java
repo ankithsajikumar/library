@@ -7,11 +7,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
-    private String userName;
+    private String username;
 
     @NotNull
     private String password;
@@ -22,14 +22,15 @@ public class User {
     @NotNull
     private String roles;
 
-    public User(String userName, String password, boolean active, String roles) {
-        this.userName = userName;
+    public User(String username, String password, boolean active, String roles) {
+        this.username = username;
         this.password = password;
         this.active = active;
         this.roles = roles;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -39,12 +40,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

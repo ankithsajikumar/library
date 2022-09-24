@@ -71,7 +71,7 @@ public class AuthenticationController {
                 .map(tokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
+                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
                     String token = tokenService.generateToken(userDetails);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 }).orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
@@ -84,7 +84,7 @@ public class AuthenticationController {
                 .map(tokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
+                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
                     String token = tokenService.generateToken(userDetails);
                     return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
                 }).orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));

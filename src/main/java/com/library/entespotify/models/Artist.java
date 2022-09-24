@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name = "artists")
 public class Artist {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @ManyToMany

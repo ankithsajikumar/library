@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate/register", "/authenticate", "/authenticate/refresh").anonymous()
+                .antMatchers("/authenticate/register", "/authenticate", "/authenticate/refresh", "/h2-console/*").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(tokenAuthenticationEntryPoint)
@@ -63,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        //for h2 console to show up
+//        http.headers().frameOptions().disable();
     }
 
     @Override
