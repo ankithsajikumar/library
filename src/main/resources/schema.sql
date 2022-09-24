@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL,
     userName VARCHAR(128),
     password VARCHAR(128),
     active BOOLEAN,
@@ -8,21 +8,21 @@ CREATE TABLE users (
 );
 
 CREATE TABLE tracks (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL,
     title VARCHAR(128),
     album VARCHAR(128),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE refreshtoken (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL,
     user_id INTEGER,
     token VARCHAR(128),
     expiry_date DATETIME,
     PRIMARY KEY (id)
 );
 CREATE TABLE artists (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL,
     name VARCHAR(128),
     PRIMARY KEY (id)
 );
@@ -39,7 +39,7 @@ CREATE TABLE artist_tracks (
     PRIMARY KEY (artist_id)
 );
 CREATE TABLE albums (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL,
     title VARCHAR(128),
     PRIMARY KEY (id)
 );
