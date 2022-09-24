@@ -3,6 +3,7 @@ package com.library.entespotify.configs;
 import com.library.entespotify.filters.TokenAuthenticationEntryPoint;
 import com.library.entespotify.filters.TokenRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private final TokenRequestFilter tokenRequestFilter;
 
+    @Value("${spring.profiles.active:default}")
+    private String activeProfile;
+
     public WebSecurityConfig(UserDetailsService userDetailsService, TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint, TokenRequestFilter tokenRequestFilter) {
         this.userDetailsService = userDetailsService;
         this.tokenAuthenticationEntryPoint = tokenAuthenticationEntryPoint;
@@ -64,8 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //for h2 console to show up
-//        http.headers().frameOptions().disable();
+        if (activeProfile.equals("default")) {
+            //for h2 console to show up
+            http.headers().frameOptions().disable();
+        }
     }
 
     @Override
