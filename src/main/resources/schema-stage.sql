@@ -1,8 +1,3 @@
-DROP TABLE IF EXISTS users cascade;
-DROP TABLE IF EXISTS tracks cascade;
-DROP TABLE IF EXISTS artists cascade;
-DROP TABLE IF EXISTS albums cascade;
-DROP TABLE IF EXISTS refreshtoken;
 
 CREATE TABLE IF NOT EXISTS users (
     id   SERIAL PRIMARY KEY,
@@ -44,4 +39,9 @@ CREATE TABLE IF NOT EXISTS artist_tracks (
 CREATE TABLE IF NOT EXISTS albums (
     id   SERIAL PRIMARY KEY,
     title VARCHAR(128)
+);
+
+CREATE TABLE IF NOT EXISTS test_table (
+    id   SERIAL PRIMARY KEY,
+    test VARCHAR(128)
 );
