@@ -18,7 +18,7 @@ CREATE TABLE refreshtoken (
     id   INTEGER      NOT NULL,
     user_id INTEGER,
     token VARCHAR(128),
-    expiry_date DATETIME,
+    expiry_date TIMESTAMP,
     PRIMARY KEY (id)
 );
 CREATE TABLE artists (
