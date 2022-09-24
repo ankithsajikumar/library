@@ -1,10 +1,9 @@
 CREATE TABLE IF NOT EXISTS users (
-    id   INTEGER      NOT NULL,
+    id   SERIAL PRIMARY KEY,
     userName VARCHAR(128),
     password VARCHAR(128),
     active BOOLEAN,
-    roles VARCHAR(128),
-    PRIMARY KEY (id)
+    roles VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS tracks (
