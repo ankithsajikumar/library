@@ -1,7 +1,7 @@
 package com.library.entespotify.configs;
 
-import com.library.entespotify.filters.JwtAuthenticationEntryPoint;
-import com.library.entespotify.filters.JwtRequestFilter;
+import com.library.entespotify.filters.TokenAuthenticationEntryPoint;
+import com.library.entespotify.filters.TokenRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,13 +29,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint;
 
     @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private final TokenRequestFilter tokenRequestFilter;
+
+    public WebSecurityConfig(UserDetailsService userDetailsService, TokenAuthenticationEntryPoint tokenAuthenticationEntryPoint, TokenRequestFilter tokenRequestFilter) {
+        this.userDetailsService = userDetailsService;
+        this.tokenAuthenticationEntryPoint = tokenAuthenticationEntryPoint;
+        this.tokenRequestFilter = tokenRequestFilter;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,15 +54,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate/register", "/authenticate").anonymous()
+                .antMatchers("/authenticate/register", "/authenticate", "/authenticate/refresh", "/h2-console/*").anonymous()
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(tokenAuthenticationEntryPoint)
                 .and()
                 .csrf().disable().cors().configurationSource(request -> corsConfiguration)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+        //for h2 console to show up
+//        http.headers().frameOptions().disable();
     }
 
     @Override

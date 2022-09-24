@@ -1,6 +1,6 @@
 package com.library.entespotify.filters;
 
-import com.library.entespotify.utils.JwtUtil;
+import com.library.entespotify.services.TokenService;
 import com.library.entespotify.services.UserDetailsServiceImp;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +18,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class TokenRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserDetailsServiceImp userDetailsService;
+    private final UserDetailsServiceImp userDetailsService;
 
     @Autowired
-    private JwtUtil jwtTokenUtil;
+    private final TokenService tokenService;
+
+    public TokenRequestFilter(UserDetailsServiceImp userDetailsService, TokenService tokenService) {
+        this.userDetailsService = userDetailsService;
+        this.tokenService = tokenService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        logger.info(request.getMethod() + ":  " + request.getRequestURI());
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;
         String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
+        // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                username = tokenService.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 logger.info("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -51,21 +56,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            // if token is valid configure Spring Security to manually set
-            // authentication
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            // if token is valid configure Spring Security to manually set authentication
+            if (tokenService.validateToken(jwtToken, userDetails)) {
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // After setting the Authentication in the context, we specify
-                // that the current filters is authenticated. So it passes the
-                // Spring Security Configurations successfully.
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // After setting the Authentication in the context, we specify that the current filters is authenticated. So it passes the Spring Security Configurations successfully.
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
         chain.doFilter(request, response);
     }
-
 }
