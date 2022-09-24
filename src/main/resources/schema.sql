@@ -1,9 +1,8 @@
 DROP TABLE IF EXISTS users cascade;
-DROP TABLE IF EXISTS tracks;
-DROP TABLE IF EXISTS artists;
-DROP TABLE IF EXISTS albums;
+DROP TABLE IF EXISTS tracks cascade;
+DROP TABLE IF EXISTS artists cascade;
+DROP TABLE IF EXISTS albums cascade;
 DROP TABLE IF EXISTS refreshtoken;
-DROP TABLE IF EXISTS track;
 
 CREATE TABLE IF NOT EXISTS users (
     id   SERIAL PRIMARY KEY,
