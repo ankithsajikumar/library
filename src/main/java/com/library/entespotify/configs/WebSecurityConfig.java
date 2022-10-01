@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate/register", "/authenticate", "/authenticate/refresh", "/h2-console/*").anonymous()
+                .antMatchers("/authenticate/register", "/authenticate", "/authenticate/refresh", "/h2-console/*", "/storage/*").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(tokenAuthenticationEntryPoint)
