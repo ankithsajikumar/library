@@ -1,8 +1,13 @@
 package com.library.entespotify.controllers;
 
+import com.library.entespotify.models.Album;
 import com.library.entespotify.models.Artist;
+import com.library.entespotify.models.Track;
+import com.library.entespotify.models.dto.ArtistInfo;
 import com.library.entespotify.services.ArtistService;
+import com.library.entespotify.services.DTOService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +18,12 @@ public class ArtistController {
     @Autowired
     private final ArtistService artistService;
 
-    public ArtistController(ArtistService artistService) {
+    @Autowired
+    private final DTOService dtoService;
+
+    public ArtistController(ArtistService artistService, DTOService dtoService) {
         this.artistService = artistService;
+        this.dtoService = dtoService;
     }
 
     @GetMapping("/artists")
@@ -38,7 +47,47 @@ public class ArtistController {
     }
 
     @DeleteMapping("/artists/{id}")
-    void deleteArtist(@PathVariable Long id) {
+    public void deleteArtist(@PathVariable Long id) {
         artistService.deleteArtist(id);
+    }
+
+    @GetMapping("/artists/{id}/albums")
+    public ResponseEntity<List<Album>> getAllAlbumsByArtistId(@PathVariable(value = "id") Long id) {
+        return artistService.getAllAlbumsByArtistId(id);
+    }
+
+    @PostMapping("/artists/{id}/album")
+    public ResponseEntity<String> addAlbumToArtist(@PathVariable(value = "id") Long id, @RequestBody Long trackId) {
+        return artistService.addAlbumToArtist(id, trackId);
+    }
+
+    @DeleteMapping("/artists/{id}/album/{albumId}")
+    public void deleteArtistAlbum(@PathVariable(value = "id") Long id, @PathVariable(value = "albumId") Long albumId) {
+        artistService.deleteArtistAlbum(id, albumId);
+    }
+
+    @GetMapping("/artists/{id}/tracks")
+    public ResponseEntity<List<Track>> getAllTracksByArtistId(@PathVariable(value = "id") Long id) {
+        return artistService.getAllTracksByArtistId(id);
+    }
+
+    @PostMapping("/artists/{id}/track")
+    public ResponseEntity<String> addTrackToArtist(@PathVariable(value = "id") Long id, @RequestBody Long trackId) {
+        return artistService.addTrackToArtist(id, trackId);
+    }
+
+    @DeleteMapping("/artists/{id}/track/{trackId}")
+    public void deleteArtistTrack(@PathVariable(value = "id") Long id, @PathVariable(value = "trackId") Long trackId) {
+        artistService.deleteArtistTrack(id, trackId);
+    }
+
+    @GetMapping("/api/artists")
+    public ResponseEntity<List<ArtistInfo>> allArtistsApi() {
+        return dtoService.getAllArtistInfo();
+    }
+
+    @GetMapping("/api/artists/{id}")
+    ResponseEntity<ArtistInfo> artistInfo(@PathVariable Long id) {
+        return dtoService.getArtistInfo(id);
     }
 }

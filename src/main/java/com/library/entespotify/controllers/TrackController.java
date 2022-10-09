@@ -1,11 +1,14 @@
 package com.library.entespotify.controllers;
 
-import java.util.List;
-
 import com.library.entespotify.models.Track;
+import com.library.entespotify.models.dto.TrackInfo;
+import com.library.entespotify.services.DTOService;
 import com.library.entespotify.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class TrackController {
@@ -13,8 +16,12 @@ public class TrackController {
     @Autowired
     private final TrackService trackService;
 
-    public TrackController(TrackService trackService) {
+    @Autowired
+    private final DTOService dtoService;
+
+    public TrackController(TrackService trackService, DTOService dtoService) {
         this.trackService = trackService;
+        this.dtoService = dtoService;
     }
 
     @GetMapping("/tracks")
@@ -38,7 +45,22 @@ public class TrackController {
     }
 
     @DeleteMapping("/tracks/{id}")
-    void deleteTrack(@PathVariable Long id) {
+    public void deleteTrack(@PathVariable Long id) {
         trackService.deleteTrack(id);
+    }
+
+    @GetMapping("/api/tracks")
+    ResponseEntity<List<TrackInfo>> allTracks() {
+        return dtoService.getAllTrackInfo();
+    }
+
+    @GetMapping("api/tracks/{id}")
+    public ResponseEntity<TrackInfo> trackInfo(@PathVariable Long id) {
+        return dtoService.getTrackInfo(id);
+    }
+
+    @PostMapping("/tracks/{id}/album")
+    public ResponseEntity<String> addTrackToAlbum(@PathVariable(value = "id") Long id, @RequestBody Long albumId) {
+        return trackService.addTrackToAlbum(albumId, id);
     }
 }
