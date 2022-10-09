@@ -1,61 +1,26 @@
 package com.library.entespotify.services;
 
-import com.library.entespotify.models.Album;
-import com.library.entespotify.models.Artist;
-import com.library.entespotify.models.Track;
-import com.library.entespotify.models.dto.AlbumDTO;
-import com.library.entespotify.models.dto.ArtistDTO;
+import com.library.entespotify.models.dto.AlbumInfo;
+import com.library.entespotify.models.dto.ArtistInfo;
 import com.library.entespotify.models.dto.TrackInfo;
-import com.library.entespotify.repositories.TrackRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
-public class DTOService {
-    @Autowired
-    private TrackRepository trackRepository;
+public interface DTOService {
 
-    public List<TrackInfo> getAllTrackInfo() {
-        return trackRepository
-                .findAll()
-                .stream()
-                .map(this::convertDataIntoDTO)
-                .collect(Collectors.toList());
-    }
+    ResponseEntity<List<TrackInfo>> getAllTrackInfo();
 
-    private TrackInfo convertDataIntoDTO(Track track) {
+    ResponseEntity<List<AlbumInfo>> getAllAlbumInfo();
 
-        TrackInfo dto = new TrackInfo();
-        dto.setId(track.getId());
-        dto.setTitle(track.getTitle());
-        Album album = track.getAlbum();
-        dto.setAlbum(convertAlbumDTO(album));
-        Set<Artist> artists = track.getArtist();
-        Set<ArtistDTO> artistDTOSet = artists.stream().map(this::convertArtistDTO).collect(Collectors.toSet());
-        dto.setArtists(artistDTOSet);
-        return dto;
-    }
+    ResponseEntity<List<ArtistInfo>> getAllArtistInfo();
 
-    private ArtistDTO convertArtistDTO(Artist artist) {
+    ResponseEntity<TrackInfo> getTrackInfo(Long id);
 
-        ArtistDTO artistDTO = new ArtistDTO();
-        artistDTO.setId(artist.getId());
-        artistDTO.setName(artist.getName());
-        return artistDTO;
-    }
+    ResponseEntity<AlbumInfo> getAlbumInfo(Long id);
 
-    private AlbumDTO convertAlbumDTO(Album album) {
+    ResponseEntity<ArtistInfo> getArtistInfo(Long id);
 
-        if (album != null) {
-            AlbumDTO albumDTO = new AlbumDTO();
-            albumDTO.setId(album.getId());
-            albumDTO.setTitle(album.getTitle());
-            return albumDTO;
-        }
-        return null;
-    }
 }

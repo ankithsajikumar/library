@@ -1,4 +1,4 @@
-package com.library.entespotify.services;
+package com.library.entespotify.services.implementations;
 
 import com.library.entespotify.models.User;
 import com.library.entespotify.models.auth.UserDetailsImpl;

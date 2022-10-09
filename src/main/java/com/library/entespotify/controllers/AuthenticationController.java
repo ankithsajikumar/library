@@ -5,7 +5,7 @@ import com.library.entespotify.models.User;
 import com.library.entespotify.models.auth.*;
 import com.library.entespotify.services.CustomUserService;
 import com.library.entespotify.services.TokenService;
-import com.library.entespotify.services.UserDetailsServiceImp;
+import com.library.entespotify.services.implementations.UserDetailsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
