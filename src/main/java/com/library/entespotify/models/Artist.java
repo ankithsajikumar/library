@@ -1,7 +1,9 @@
 package com.library.entespotify.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.library.entespotify.exceptions.EntityNotFoundException;
+
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,13 +13,17 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "artist_albums",
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "album_id"))
     private Set<Album> albums;
-    @ManyToMany
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "artist_tracks",
             joinColumns = @JoinColumn(name = "artist_id"),
@@ -57,11 +63,29 @@ public class Artist {
         this.albums = albums;
     }
 
+    public void setAlbum(Album album) {
+        this.albums.add(album);
+    }
+
+    public void deleteAlbum(Album album) {
+        this.albums.remove(album);
+        album.getArtists().remove(this);
+    }
+
     public Set<Track> getTracks() {
         return tracks;
     }
 
     public void setTracks(Set<Track> tracks) {
         this.tracks = tracks;
+    }
+
+    public void setTrack(Track track) {
+        this.tracks.add(track);
+    }
+
+    public void deleteTrack(Track track) {
+        this.tracks.remove(track);
+        track.getArtist().remove(this);
     }
 }

@@ -1,8 +1,11 @@
 package com.library.entespotify.controllers;
 
 import com.library.entespotify.models.Album;
+import com.library.entespotify.models.Track;
 import com.library.entespotify.services.AlbumService;
+import com.library.entespotify.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +16,12 @@ public class AlbumController {
     @Autowired
     private final AlbumService albumService;
 
-    public AlbumController(AlbumService albumService) {
+    @Autowired
+    private final TrackService trackService;
+
+    public AlbumController(AlbumService albumService, TrackService trackService) {
         this.albumService = albumService;
+        this.trackService = trackService;
     }
 
     @GetMapping("/albums")
@@ -38,7 +45,17 @@ public class AlbumController {
     }
 
     @DeleteMapping("/albums/{id}")
-    void deleteAlbum(@PathVariable Long id) {
+    public void deleteAlbum(@PathVariable Long id) {
         albumService.deleteAlbum(id);
+    }
+
+    @PostMapping("/albums/{id}/track")
+    public ResponseEntity<String> addTrackToAlbum(@PathVariable(value = "id") Long id, @RequestBody Long trackId) {
+        return trackService.addTrackToAlbum(id, trackId);
+    }
+
+    @GetMapping("/albums/{id}/tracks")
+    public ResponseEntity<List<Track>> getTracksOfAlbum(@PathVariable(value = "id") Long id) {
+        return trackService.getTracksOfAlbum(id);
     }
 }
