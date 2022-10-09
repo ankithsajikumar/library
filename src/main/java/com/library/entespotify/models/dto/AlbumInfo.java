@@ -2,24 +2,22 @@ package com.library.entespotify.models.dto;
 
 import java.util.Set;
 
-public class TrackInfo {
+public class AlbumInfo {
     private long id;
     private String title;
-    private AlbumDTO album;
+    private Set<TrackDTO> tracks;
     private Set<ArtistDTO> artists;
     private String albumArt;
-    private String genre;
 
-    public TrackInfo(int id, String title, AlbumDTO album, Set<ArtistDTO> artists, String albumArt, String genre) {
+    public AlbumInfo(int id, String title, Set<TrackDTO> tracks, Set<ArtistDTO> artists, String albumArt) {
         this.id = id;
         this.title = title;
-        this.album = album;
+        this.tracks = tracks;
         this.artists = artists;
         this.albumArt = albumArt;
-        this.genre = genre;
     }
 
-    public TrackInfo() {
+    public AlbumInfo() {
     }
 
     public long getId() {
@@ -38,12 +36,12 @@ public class TrackInfo {
         this.title = title;
     }
 
-    public AlbumDTO getAlbum() {
-        return album;
+    public Set<TrackDTO> getTracks() {
+        return tracks;
     }
 
-    public void setAlbum(AlbumDTO album) {
-        this.album = album;
+    public void setTracks(Set<TrackDTO> tracks) {
+        this.tracks = tracks;
     }
 
     public Set<ArtistDTO> getArtists() {
@@ -60,13 +58,5 @@ public class TrackInfo {
 
     public void setAlbumArt(String albumArt) {
         this.albumArt = albumArt;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 }

@@ -1,8 +1,9 @@
-package com.library.entespotify.services;
+package com.library.entespotify.services.implementations;
 
 import com.library.entespotify.exceptions.EntityNotFoundException;
 import com.library.entespotify.models.Album;
 import com.library.entespotify.repositories.AlbumRepository;
+import com.library.entespotify.services.AlbumService;
 import com.library.entespotify.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

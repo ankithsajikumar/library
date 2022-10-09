@@ -10,7 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS tracks (
     id   INTEGER  AUTO_INCREMENT    NOT NULL,
     title VARCHAR(128),
-    album VARCHAR(128),
+    album_id INTEGER,
+    genre VARCHAR(128),
+    created_at DATETIME,
+    created_by VARCHAR(128),
     PRIMARY KEY (id)
 );
 
@@ -22,8 +25,11 @@ CREATE TABLE IF NOT EXISTS refreshtoken (
     PRIMARY KEY (id)
 );
 CREATE TABLE IF NOT EXISTS artists (
-    id   INTEGER      NOT NULL,
+    id   INTEGER AUTO_INCREMENT NOT NULL,
     name VARCHAR(128),
+    display_picture VARCHAR(255),
+    created_at DATETIME,
+    created_by VARCHAR(128),
     PRIMARY KEY (id)
 );
 
@@ -41,5 +47,8 @@ CREATE TABLE IF NOT EXISTS artist_tracks (
 CREATE TABLE IF NOT EXISTS albums (
     id   INT  AUTO_INCREMENT    NOT NULL,
     title VARCHAR(128),
+    album_art VARCHAR(255),
+    created_at DATETIME,
+    created_by VARCHAR(128),
     PRIMARY KEY (id)
 );

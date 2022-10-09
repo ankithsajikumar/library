@@ -16,6 +16,7 @@ public class Track {
 
     private String title;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "tracks")
     private Set<Artist> artists;
 

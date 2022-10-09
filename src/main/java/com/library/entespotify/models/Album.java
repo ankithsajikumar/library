@@ -1,5 +1,7 @@
 package com.library.entespotify.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -13,9 +15,11 @@ public class Album {
 
     private String title;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "albums")
     private Set<Artist> artists;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "album")
     private Set<Track> tracks;
 

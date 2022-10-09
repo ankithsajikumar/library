@@ -50,8 +50,13 @@ public class TrackController {
     }
 
     @GetMapping("/api/tracks")
-    List<TrackInfo> allTracks() {
+    ResponseEntity<List<TrackInfo>> allTracks() {
         return dtoService.getAllTrackInfo();
+    }
+
+    @GetMapping("api/tracks/{id}")
+    public ResponseEntity<TrackInfo> trackInfo(@PathVariable Long id) {
+        return dtoService.getTrackInfo(id);
     }
 
     @PostMapping("/tracks/{id}/album")
