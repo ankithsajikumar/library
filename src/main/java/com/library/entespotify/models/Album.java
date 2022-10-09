@@ -1,6 +1,7 @@
 package com.library.entespotify.models;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -9,17 +10,26 @@ public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "albums")
     private Set<Artist> artists;
 
     @OneToMany(mappedBy = "album")
     private Set<Track> tracks;
 
-    public Album(String title, Set<Artist> artists, Set<Track> tracks) {
+    private String albumArt;
+
+    private final Date createdAt = new Date();
+
+    private String createdBy;
+
+    public Album(String title, Set<Artist> artists, Set<Track> tracks, String albumArt) {
         this.title = title;
         this.artists = artists;
         this.tracks = tracks;
+        this.albumArt = albumArt;
     }
 
     public Album() {
@@ -59,5 +69,25 @@ public class Album {
 
     public void setTrack(Track track) {
         this.tracks.add(track);
+    }
+
+    public String getAlbumArt() {
+        return albumArt;
+    }
+
+    public void setAlbumArt(String albumArt) {
+        this.albumArt = albumArt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

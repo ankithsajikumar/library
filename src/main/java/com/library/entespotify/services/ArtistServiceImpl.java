@@ -7,6 +7,7 @@ import com.library.entespotify.models.Track;
 import com.library.entespotify.repositories.AlbumRepository;
 import com.library.entespotify.repositories.ArtistRepository;
 import com.library.entespotify.repositories.TrackRepository;
+import com.library.entespotify.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public Artist newArtist(Artist newArtist) {
+        newArtist.setCreatedBy(CommonUtils.getUser());
         return artistRepository.save(newArtist);
     }
 
@@ -55,6 +57,7 @@ public class ArtistServiceImpl implements ArtistService {
                     Artist.setName(newArtist.getName());
                     Artist.setAlbums(newArtist.getAlbums());
                     Artist.setTracks(newArtist.getTracks());
+                    Artist.setDisplayPicture(newArtist.getDisplayPicture());
                     return artistRepository.save(Artist);
                 })
                 .orElseGet(() -> {
@@ -99,7 +102,7 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public ResponseEntity<List<Track>> getAllTracksByArtistId(Long id) {
         if (artistRepository.existsById(id)) {
-            List<Track> tracks = trackRepository.findTracksByArtistId(id);
+            List<Track> tracks = trackRepository.findTracksByArtistsId(id);
             return new ResponseEntity<>(tracks, HttpStatus.OK);
         }
         throw new EntityNotFoundException(id);

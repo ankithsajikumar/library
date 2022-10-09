@@ -5,6 +5,7 @@ import com.library.entespotify.models.Album;
 import com.library.entespotify.models.Track;
 import com.library.entespotify.repositories.AlbumRepository;
 import com.library.entespotify.repositories.TrackRepository;
+import com.library.entespotify.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track newTrack(Track newTrack) {
+        newTrack.setCreatedBy(CommonUtils.getUser());
         return trackRepository.save(newTrack);
     }
 
@@ -47,8 +49,9 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.findById(id)
                 .map(Track -> {
                     Track.setTitle(newTrack.getTitle());
-                    Track.setArtist(newTrack.getArtist());
+                    Track.setArtists(newTrack.getArtists());
                     Track.setAlbum(newTrack.getAlbum());
+                    Track.setGenre(newTrack.getGenre());
                     return trackRepository.save(Track);
                 })
                 .orElseGet(() -> {

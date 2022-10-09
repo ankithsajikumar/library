@@ -34,7 +34,7 @@ public class DTOService {
         dto.setTitle(track.getTitle());
         Album album = track.getAlbum();
         dto.setAlbum(convertAlbumDTO(album));
-        Set<Artist> artists = track.getArtist();
+        Set<Artist> artists = track.getArtists();
         Set<ArtistDTO> artistDTOSet = artists.stream().map(this::convertArtistDTO).collect(Collectors.toSet());
         dto.setArtists(artistDTOSet);
         return dto;
