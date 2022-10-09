@@ -1,5 +1,7 @@
 package com.library.entespotify.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,15 +13,20 @@ public class Track {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @ManyToMany(mappedBy = "tracks")
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "tracks")
     private Set<Artist> artist;
-    private String album;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    private Album album;
 
 
     Track() {
     }
 
-    public Track(String title, Set<Artist> artist, String album) {
+    public Track(String title, Set<Artist> artist, Album album) {
 
         this.title = title;
         this.artist = artist;
@@ -38,7 +45,7 @@ public class Track {
         return this.artist;
     }
 
-    public String getAlbum() {
+    public Album getAlbum() {
         return album;
     }
 
@@ -54,7 +61,7 @@ public class Track {
         this.artist = artist;
     }
 
-    public void setAlbum(String album) {
+    public void setAlbum(Album album) {
         this.album = album;
     }
 
