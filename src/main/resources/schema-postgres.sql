@@ -1,9 +1,3 @@
---DROP TABLE IF EXISTS users;
---DROP TABLE IF EXISTS tracks;
---DROP TABLE IF EXISTS artists;
---DROP TABLE IF EXISTS albums;
---DROP TABLE IF EXISTS refreshtoken;
---DROP TABLE IF EXISTS track;
 
 CREATE TABLE IF NOT EXISTS users (
     id   SERIAL PRIMARY KEY,
@@ -16,7 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS tracks (
     id   SERIAL PRIMARY KEY,
     title VARCHAR(128),
-    album VARCHAR(128)
+    album_id INTEGER,
+    genre VARCHAR(128),
+    created_at TIMESTAMP,
+    created_by VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS refreshtoken (
@@ -27,7 +24,10 @@ CREATE TABLE IF NOT EXISTS refreshtoken (
 );
 CREATE TABLE IF NOT EXISTS artists (
     id   SERIAL PRIMARY KEY,
-    name VARCHAR(128)
+    name VARCHAR(128),
+    display_picture VARCHAR(255),
+    created_at TIMESTAMP,
+    created_by VARCHAR(128)
 );
 
 CREATE TABLE IF NOT EXISTS artist_albums (
@@ -44,5 +44,8 @@ CREATE TABLE IF NOT EXISTS artist_tracks (
 
 CREATE TABLE IF NOT EXISTS albums (
     id   SERIAL PRIMARY KEY,
-    title VARCHAR(128)
+    title VARCHAR(128),
+    album_art VARCHAR(255),
+    created_at TIMESTAMP,
+    created_by VARCHAR(128)
 );

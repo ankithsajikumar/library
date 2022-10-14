@@ -1,6 +1,7 @@
 package com.library.entespotify.services;
 
 import com.library.entespotify.models.Track;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface TrackService {
     Track replaceTrack(Track newTrack, Long id);
 
     void deleteTrack(Long id);
+
+    ResponseEntity<String> addTrackToAlbum(Long albumId, Long trackId);
+
+    ResponseEntity<List<Track>> getTracksOfAlbum(Long albumId);
 }

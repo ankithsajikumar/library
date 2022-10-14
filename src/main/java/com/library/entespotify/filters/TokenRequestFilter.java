@@ -1,7 +1,7 @@
 package com.library.entespotify.filters;
 
 import com.library.entespotify.services.TokenService;
-import com.library.entespotify.services.UserDetailsServiceImp;
+import com.library.entespotify.services.implementations.UserDetailsServiceImp;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
